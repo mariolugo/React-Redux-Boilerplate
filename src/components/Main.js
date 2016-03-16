@@ -8,7 +8,8 @@ let {
   Component,
   Text,
   TextInput,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } = React 
 
 import {connect} from 'react-redux/native'
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     margin: 50,
   },
   explore:{
-    backgroundColor: '#21551C'
+    backgroundColor: '#E0EAEF'
   }
 });
 

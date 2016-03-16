@@ -9,7 +9,14 @@ import React, {
   ActivityIndicatorIOS,
   Image,
   Component,
+  Dimensions,
+  ScrollView
 } from 'react-native';
+
+import SearchBar from 'react-native-search-bar/';
+
+const width = Dimensions.get('window').width; 
+const height = Dimensions.get('window').height;
 
 class Explore extends Component {
   constructor(props) {
@@ -24,11 +31,7 @@ class Explore extends Component {
     this._executeQuery(query);
   }
 
-  onSearchTextChanged(event) {
-    console.log('onSearchTextChanged');
-    this.setState({ searchString: event.nativeEvent.text });
-    console.log(this.state.searchString);
-  }
+
   render() {
     var spinner = this.state.isLoading ?
     ( <ActivityIndicatorIOS
@@ -37,21 +40,21 @@ class Explore extends Component {
     ( <View/>);
     return (
       <View style={styles.container}>
-        <View style={styles.flowRight}>
-          <TextInput
-            style={styles.searchInput}
-            value={this.state.searchString}
-            onChange={this.onSearchTextChanged.bind(this)}
-            placeholder='Search for beers!'/>
-          <TouchableHighlight 
-              style={styles.button}
-              underlayColor='#99d9f4'
-              onPress={this.onSearchPressed.bind(this)}>
-            <Text style={styles.buttonText} >Go</Text>
-          </TouchableHighlight>
-        </View>
+       
+        
         {spinner}
-        <Text style={styles.description}>{this.state.message}</Text>
+         <ScrollView
+          contentContainerStyle={styles.contentContainer}
+          style={styles.scrollView}>
+          <Text style={styles.description}>Search by</Text>
+        </ScrollView>
+        <SearchBar
+          ref='searchBar'
+          placeholder='Search for Beers'
+          style={styles.searchBar}
+          onSearchButtonPress={this.onSearchPressed.bind(this)}
+          onCancelButtonPress={this.state.searchString}
+        />
       </View>
 
     );
@@ -61,19 +64,26 @@ class Explore extends Component {
 const styles = StyleSheet.create({
   description: {
     marginBottom: 20,
+    marginTop:20,
     fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    color: 'black'
   },
   container: {
-    padding: 30,
     marginTop: 65,
     alignItems: 'center'
   },
   flowRight: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  alignSelf: 'stretch'
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch'
+  },
+  scrollView: {
+    height: height-70,
+    width: width,
+    backgroundColor: '#fbfbfb',
+    position:'absolute',
+    marginTop:-25,
   },
   buttonText: {
     fontSize: 18,
@@ -90,6 +100,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
+  },
+  searchBar:{
+    width:width,
+    fontSize: 18,
+    height:40,
+    marginTop:-1
   },
   searchInput: {
     height: 36,
