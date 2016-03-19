@@ -13,12 +13,12 @@ import React, {
   ScrollView
 } from 'react-native';
 
-import SearchBar from 'react-native-search-bar/';
-
 const width = Dimensions.get('window').width; 
 const height = Dimensions.get('window').height;
 
-class Explore extends Component {
+import MapView from 'react-native-maps';
+
+class Drink extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,11 +26,6 @@ class Explore extends Component {
       message: ''
     };
   }
-  onSearchPressed() {
-    var query = urlForQueryAndPage('q', this.state.searchString, 1);
-    this._executeQuery(query);
-  }
-
 
   render() {
     var spinner = this.state.isLoading ?
@@ -40,48 +35,16 @@ class Explore extends Component {
     ( <View/>);
     return (
       <View style={styles.container}>
-       
-        
         {spinner}
-         <ScrollView
-          contentContainerStyle={styles.contentContainer}
-          style={styles.scrollView}>
-          <Text style={styles.description}>Search by</Text>
-          <View style={styles.listContainer}>
-          <TouchableHighlight
-            onPress={() => this.rowPressed(rowData.id)}>
-            <View style={styles.list}>
-              <Text style={styles.listText}>
-                Brewery
-              </Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={() => this.rowPressed(rowData.id)}>
-            <View style={styles.list2}>
-              <Text style={styles.listText}>
-                Style
-              </Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={() => this.rowPressed(rowData.id)}>
-            <View style={styles.list}>
-              <Text style={styles.listText}>
-                Week's Featured Beers and Brewery
-              </Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-        </ScrollView>
-        <SearchBar
-          ref='searchBar'
-          placeholder='Search for Beers'
-          style={styles.searchBar}
-          onSearchButtonPress={this.onSearchPressed.bind(this)}
-          onCancelButtonPress={this.state.searchString}
+        <MapView 
+          style={ styles.map }
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
         />
-                    
       </View>
 
     );
@@ -170,7 +133,16 @@ const styles = StyleSheet.create({
     image: {
     width: 217,
     height: 128
-  }
+  },
+   map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width:width,
+    height:height-20
+  },
 });
 
-export default Explore
+export default Drink
